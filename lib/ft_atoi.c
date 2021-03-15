@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jfeuilla <jfeuilla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lucisanc <lucisanc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/02 17:56:47 by jfeuilla          #+#    #+#             */
-/*   Updated: 2019/11/07 14:23:38 by jfeuilla         ###   ########.fr       */
+/*   Updated: 2021/03/09 21:16:31 by lucisanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ int		ft_atoi(const char *str)
 	i = 0;
 	while ((str[i] == 32) || (str[i] == 12) || (str[i] == 10) ||
 			(str[i] == 13) || (str[i] == 9) || (str[i] == 11))
-	{
 		i++;
-	}
 	if ((str[i] == 45) || (str[i] == 43))
 	{
 		if (str[i] == 45)

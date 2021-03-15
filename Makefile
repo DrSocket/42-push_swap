@@ -16,7 +16,7 @@ OBJ_PATH = ./obj
 OBJLIB_PATH = ./obj
 
 INC_NAME = push_swap.h
-SRC_NAME = push_swap.c checker.c
+SRC_NAME = push_swap.c checker.c operations.c tools.c ft_push.c ft_swap.c ft_rotate.c ft_revrot.c
 LIB_NAME = ft_atoi.c ft_isascii.c ft_lstadd_front_bonus.c ft_lstmap_bonus.c\
 	ft_memcmp.c ft_putendl_fd.c ft_strdup.c ft_strmapi.c ft_substr.c ft_bzero.c\
 	ft_isdigit.c ft_lstclear_bonus.c ft_lstnew_bonus.c ft_memcpy.c ft_putnbr_fd.c\
@@ -25,7 +25,7 @@ LIB_NAME = ft_atoi.c ft_isascii.c ft_lstadd_front_bonus.c ft_lstmap_bonus.c\
 	ft_isalnum.c ft_itoa.c ft_lstiter_bonus.c ft_memccpy.c ft_memset.c ft_split.c ft_strlcpy.c\
 	ft_strrchr.c ft_isalpha.c ft_lstadd_back_bonus.c ft_lstlast_bonus.c ft_memchr.c ft_putchar_fd.c\
 	ft_strchr.c ft_strlen.c ft_strtrim.c
-PUSH_SWAP_OBJ_NAME = push_swap.o
+PUSH_SWAP_OBJ_NAME = push_swap.o operations.o tools.o ft_push.o ft_swap.o ft_rotate.o ft_revrot.o
 CHECKER_OBJ_NAME = checker.o
 OBJ_NAME = $(SRC_NAME:.c=.o)
 OBJLIB_NAME = $(LIB_NAME:.c=.o)
@@ -41,13 +41,16 @@ OBJLIB = $(addprefix $(OBJLIB_PATH)/,$(OBJLIB_NAME))
 all: $(PUSH_SWAP_NAME) $(CHECKER_NAME)
 
 $(PUSH_SWAP_NAME): $(OBJ) $(OBJLIB)
-	${CC} -Wall -Wextra -Werror -I ${INC_PATH} -o ${PUSH_SWAP_NAME} ${OBJLIB} ${PUSH_SWAP_OBJ}
+	${CC} ${FLAGS} -I ${INC_PATH} -o ${PUSH_SWAP_NAME} ${OBJLIB} ${PUSH_SWAP_OBJ}
 
 $(CHECKER_NAME): $(OBJ) $(OBJLIB)
-	${CC} -Wall -Wextra -Werror -I ${INC_PATH} -o ${CHECKER_NAME} ${OBJLIB} ${CHECKER_OBJ}
+	${CC} ${FLAGS} -I ${INC_PATH} -o ${CHECKER_NAME} ${OBJLIB} ${CHECKER_OBJ}
+
+$(OPERATIONS_NAME)): $(OBJ) $(OBJLIB)
+	${CC} ${FLAGS} -I ${INC_PATH} -o ${OPERATIONS_NAME} ${OBJLIB} ${OPERATIONS_OBJ}
 
 valgrind: $(OBJ) $(OBJLIB)
-	${CC} -Wall -Wextra -Werror -g -o ${NAME} ${OBJLIB} ${OBJ} 
+	${CC} ${FLAGS} -g -o ${NAME} ${OBJLIB} ${OBJ} 
 	valgrind --leak-check=full --show-leak-kinds=all ./minishell
 	#valgrind --leak-check=full ./minishell
 
@@ -65,5 +68,6 @@ clean:
 fclean: clean
 	rm -rf ./obj $(PUSH_SWAP_NAME)
 	rm -rf ./obj $(CHECKER_NAME)
+	rm -rf ./obj $(OPERATIONS_NAME)
 
 re: fclean all
