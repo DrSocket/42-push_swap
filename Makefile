@@ -1,69 +1,69 @@
-.PHONY: all clean fclean re norme
+NAME		=	push_swap
 
-##CC = clang-9
-##CC = clang -g ## clang-9 doesn't work on my ubuntu
-CC = gcc
+BLACK	=	\e[30m
+RED		=	\e[31m
+GREEN	=	\e[32m
+YELLOW	=	\e[33m
+BLUE	=	\e[34m
+PURPLE	=	\e[35m
+CYAN	=	\e[36m
+END		=	\e[0m
 
-FLAGS = -Wall -Wextra -Werror
+CC			=	clang
+FLAGS		=	-Wall -Wextra -Werror #-fsanitize=address -g
 
-PUSH_SWAP_NAME = push_swap
-CHECKER_NAME = checker
+SRC_DIR		=	srcs/
+INC_DIR		=	-I./includes/
+OBJ_DIR 	=	objs/
 
-SRC_PATH = ./srcs
-LIB_PATH = ./lib
-INC_PATH = ./inc
-OBJ_PATH = ./obj
-OBJLIB_PATH = ./obj
+SRCS		=	$(addprefix $(SRC_DIR), $(SRC_BASE))
+OBJS		=	$(addprefix $(OBJ_DIR), $(SRC_BASE:.c=.o))
+DIR			=	$(sort $(dir $(OBJS)))
 
-INC_NAME = push_swap.h
-SRC_NAME = push_swap.c checker.c
-LIB_NAME = ft_atoi.c ft_isascii.c ft_lstadd_front_bonus.c ft_lstmap_bonus.c\
-	ft_memcmp.c ft_putendl_fd.c ft_strdup.c ft_strmapi.c ft_substr.c ft_bzero.c\
-	ft_isdigit.c ft_lstclear_bonus.c ft_lstnew_bonus.c ft_memcpy.c ft_putnbr_fd.c\
-	ft_strjoin.c ft_strncmp.c ft_tolower.c ft_calloc.c ft_isprint.c ft_lstdelone_bonus.c\
-	ft_lstsize_bonus.c ft_memmove.c ft_putstr_fd.c ft_strlcat.c ft_strnstr.c ft_toupper.c\
-	ft_isalnum.c ft_itoa.c ft_lstiter_bonus.c ft_memccpy.c ft_memset.c ft_split.c ft_strlcpy.c\
-	ft_strrchr.c ft_isalpha.c ft_lstadd_back_bonus.c ft_lstlast_bonus.c ft_memchr.c ft_putchar_fd.c\
-	ft_strchr.c ft_strlen.c ft_strtrim.c
-PUSH_SWAP_OBJ_NAME = push_swap.o
-CHECKER_OBJ_NAME = checker.o
-OBJ_NAME = $(SRC_NAME:.c=.o)
-OBJLIB_NAME = $(LIB_NAME:.c=.o)
+SRC_BASE 	= \
+lst_utils.c \
+main.c \
+markup.c \
+parsing_utils.c \
+push.c \
+presort.c \
+rotate.c \
+sort.c \
+sort_small.c \
+sort_utils.c \
+swap.c \
+utils.c \
+insertion_sort.c \
+test_print_stcks.c
 
-SRC = $(addprefix $(SRC_PATH)/, $(SRC_NAME))
-LIB = $(addprefix $(LIB_PATH)/, $(LIB_NAME))
-INC = $(addprefix $(INC_PATH)/, $(INC_NAME))
-OBJ = $(addprefix $(OBJ_PATH)/,$(OBJ_NAME))
-PUSH_SWAP_OBJ = $(addprefix $(OBJ_PATH)/,$(PUSH_SWAP_OBJ_NAME))
-CHECKER_OBJ = $(addprefix $(OBJ_PATH)/,$(CHECKER_OBJ_NAME))
-OBJLIB = $(addprefix $(OBJLIB_PATH)/,$(OBJLIB_NAME))
+all:	$(NAME)
 
-all: $(PUSH_SWAP_NAME) $(CHECKER_NAME)
+$(NAME): 	$(OBJS)
+	@$(CC) $(INC_DIR) $(FLAGS) -o $@ $(OBJS) $(LIB)
+	@printf "\t$(PURPLE)$(NAME) created\n$(END)"
 
-$(PUSH_SWAP_NAME): $(OBJ) $(OBJLIB)
-	${CC} -Wall -Wextra -Werror -I ${INC_PATH} -o ${PUSH_SWAP_NAME} ${OBJLIB} ${PUSH_SWAP_OBJ}
+$(DIR):
+	@mkdir -p $@
 
-$(CHECKER_NAME): $(OBJ) $(OBJLIB)
-	${CC} -Wall -Wextra -Werror -I ${INC_PATH} -o ${CHECKER_NAME} ${OBJLIB} ${CHECKER_OBJ}
-
-valgrind: $(OBJ) $(OBJLIB)
-	${CC} -Wall -Wextra -Werror -g -o ${NAME} ${OBJLIB} ${OBJ} 
-	valgrind --leak-check=full --show-leak-kinds=all ./minishell
-	#valgrind --leak-check=full ./minishell
-
-$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
-	@mkdir $(OBJ_PATH) 2> /dev/null || true
-	${CC} -I ${INC_PATH} -o $@ -c $<
-
-$(OBJLIB_PATH)/%.o: $(LIB_PATH)/%.c
-	@mkdir $(OBJLIB_PATH) 2> /dev/null || true
-	$(CC) -o $@ -c $<
+$(OBJ_DIR)%.o : $(SRC_DIR)%.c | $(DIR)
+	@printf "\t$(GREEN)Compiling [$(END)";
+	@$(CC) -c $(FLAGS) $< -o $@ $(INC_DIR)
+	@printf "$(CYAN)$(notdir $^)$(GREEN)]$(END)\n";
 
 clean:
-	rm -rf $(OBJ) $(OBJLIB)
+	@if [ -d $(OBJ_DIR) ]; \
+		then \
+		printf "\t$(YELLOW)Object files successfully deleted\n$(END)"; \
+		rm -rf $(OBJ_DIR); \
+		fi;
 
-fclean: clean
-	rm -rf ./obj $(PUSH_SWAP_NAME)
-	rm -rf ./obj $(CHECKER_NAME)
+fclean:		clean
+	@if [ -e $(NAME) ]; \
+		then \
+		printf "\t$(YELLOW)$(NAME) successfully deleted\n$(END)"; \
+		rm -rf $(NAME); \
+		fi;
 
-re: fclean all
+re:			fclean all
+
+.PHONY:		all clean fclean re
