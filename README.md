@@ -1,5 +1,3 @@
-# push_swap
-
 Push Swap - 42
 
 A sorting algorithem problem where we must sort a stack with certain constraints. 
