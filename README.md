@@ -1,4 +1,4 @@
-# Push Swap
+## Push Swap
 
 A sorting algorithem problem where we must sort a stack with certain constraints. 
 
@@ -26,6 +26,6 @@ rr : ra and rb at the same time.
 
 rra : reverse rotate a - shift down all elements of stack a by 1. The last element becomes the first one.
 
-# Launch program:
+##### Launch program
 
 ./push_swap i j k [...more numbers...] 
