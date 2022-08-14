@@ -1,4 +1,4 @@
-## Push Swap (https://badge42.vercel.app/api/v2/cl3vpat6c006909l0j733osv1/project/2518391)
+## Push Swap ![](https://badge42.vercel.app/api/v2/cl3vpat6c006909l0j733osv1/project/2518391)
 
 A sorting algorithem problem where we must sort a stack with certain constraints. 
 
